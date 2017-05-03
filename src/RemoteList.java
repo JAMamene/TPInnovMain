@@ -5,9 +5,9 @@ import java.util.List;
 /**
  * A list of ideas stored on the server.
  */
-public class RemoteList implements RemoteListInterface{
+public class RemoteList implements RemoteListInterface {
 
-    private static int currentId= 0;
+    private static int currentId = 0;
     private final List<Idea> ideas;
 
     /**
@@ -29,7 +29,7 @@ public class RemoteList implements RemoteListInterface{
     public Answer list() {
         List<Object> objects = new ArrayList<>();
         synchronized (ideas) {
-            for (Idea i: ideas) {
+            for (Idea i : ideas) {
                 objects.add(i);
             }
         }
@@ -57,9 +57,7 @@ public class RemoteList implements RemoteListInterface{
      */
     public Answer participate(Participation p) {
         try {
-            synchronized (ideas) {
-                ideas.stream().filter(idea -> (idea.getId() == p.getId())).findFirst().orElseThrow(RuntimeException::new).addInterested(p.getEmail());
-            }
+            ideas.stream().filter(idea -> (idea.getId() == p.getId())).findFirst().orElseThrow(RuntimeException::new).addInterested(p.getEmail());
         } catch (RuntimeException e) {
             return new Answer(Answer.BAD_STATUS, null);
         }
