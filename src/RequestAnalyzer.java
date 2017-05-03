@@ -8,12 +8,12 @@ public class RequestAnalyzer {
         this.request = request;
     }
 
-    public Answer resolveRequest(Stuff stuff) {
+    public Answer resolveRequest(RemoteList remoteList) {
         try {
-            return request.invoke(stuff);
+            return request.invoke(remoteList);
         } catch (InvocationTargetException | IllegalAccessException | ClassNotFoundException | NoSuchMethodException e) {
             e.printStackTrace();
+            return new Answer(Answer.BAD_STATUS,null);
         }
-        return new Answer(Answer.BAD_STATUS,null);
     }
 }

@@ -1,14 +1,17 @@
-import java.util.*;
+import java.util.Arrays;
+import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Scanner;
 
 public class QuickRequestCreator {
 
-    public Request create () {
+    public Request create() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Type 1 to add idea, 2 to list, 3 to see who's interested, 4 to participate and anything to quit");
         Request request;
-        int value = sc.nextInt();
-        sc.nextLine();
         try {
+            int value = sc.nextInt();
+            sc.nextLine();
             switch (value) {
                 case 1:
                     System.out.println("What's your name?");

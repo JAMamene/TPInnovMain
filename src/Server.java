@@ -7,17 +7,17 @@ import java.net.Socket;
 public class Server {
 
     private int port;
-    private Stuff stuff;
+    private RemoteList remoteList;
 
     public Server(int port) {
         this.port = port;
-        stuff = new Stuff();
+        remoteList = new RemoteList();
     }
 
     public void start() {
         try {
             ServerSocket socket = new ServerSocket(port);
-            while(true) {
+            while (true) {
                 Socket connectionSocket = socket.accept();
                 new Thread() {
                     public void run() {
@@ -26,7 +26,8 @@ public class Server {
                             ObjectInputStream input = new ObjectInputStream(connectionSocket.getInputStream());
                             while (true) {
                                 Request request = (Request) input.readObject();
-                                output.writeObject(new RequestAnalyzer(request).resolveRequest(stuff));
+                                output.writeObject(new RequestAnalyzer(request).resolveRequest(remoteList));
+                                System.out.println(remoteList.getIdeas());
                             }
                         } catch (ClassNotFoundException | IOException e) {
                             e.printStackTrace();
