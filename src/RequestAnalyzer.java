@@ -10,10 +10,14 @@ public class RequestAnalyzer {
 
     public Answer resolveRequest(RemoteList remoteList) {
         try {
-            return request.invoke(remoteList);
+            if (request.getParam() == null) {
+                return (Answer) (Class.forName(remoteList.getClass().getName()).getMethod(request.getMethod())).invoke(remoteList);
+            } else {
+                return (Answer) (Class.forName(remoteList.getClass().getName()).getMethod(request.getMethod(), request.getParam().getClass()).invoke(remoteList, request.getParam()));
+            }
         } catch (InvocationTargetException | IllegalAccessException | ClassNotFoundException | NoSuchMethodException e) {
             e.printStackTrace();
-            return new Answer(Answer.BAD_STATUS,null);
+            return new Answer(Answer.BAD_STATUS, null);
         }
     }
 }

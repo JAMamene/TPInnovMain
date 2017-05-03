@@ -27,7 +27,6 @@ public class Server {
                             while (true) {
                                 Request request = (Request) input.readObject();
                                 output.writeObject(new RequestAnalyzer(request).resolveRequest(remoteList));
-                                System.out.println(remoteList.getIdeas());
                             }
                         } catch (ClassNotFoundException | IOException e) {
                             e.printStackTrace();
