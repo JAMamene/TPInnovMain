@@ -30,7 +30,7 @@ public class RemoteList implements RemoteListInterface {
         List<Object> objects = new ArrayList<>();
         synchronized (ideas) {
             for (Idea i : ideas) {
-                objects.add(i);
+                objects.add(new Idea(i));
             }
         }
         return new Answer(Answer.NORMAL_STATUS, objects);
