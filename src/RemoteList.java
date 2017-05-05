@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -8,6 +7,7 @@ import java.util.List;
  */
 public class RemoteList implements RemoteListInterface {
 
+    private static final String NO_IDEA_ID = "There is no idea linked with this identifier";
     private static int currentId = 0;
     private final List<Idea> ideas;
 
@@ -17,6 +17,7 @@ public class RemoteList implements RemoteListInterface {
     public RemoteList() {
         this.ideas = Collections.synchronizedList(new ArrayList<>());
     }
+
     /**
      * Lists all ideas.
      *
@@ -57,7 +58,7 @@ public class RemoteList implements RemoteListInterface {
                 ideas.stream().filter(idea -> (idea.getId() == p.getId())).findFirst().orElseThrow(RuntimeException::new).addInterested(p.getEmail());
             }
         } catch (RuntimeException e) {
-            return new Answer(Answer.BAD_STATUS, null);
+            return new Answer(NO_IDEA_ID, null);
         }
         return new Answer(Answer.NORMAL_STATUS, null);
     }
@@ -70,13 +71,14 @@ public class RemoteList implements RemoteListInterface {
      */
     public Answer seeInterested(Integer id) {
         synchronized (ideas) {
-            Idea i = ideas.stream().filter(idea -> (idea.getId() == id)).findFirst().orElse(null);
-            if (i == null) {
-                return new Answer(Answer.BAD_STATUS, null);
+            try {
+                Idea i = ideas.stream().filter(idea -> (idea.getId() == id)).findFirst().orElseThrow(RuntimeException::new);
+                List<Object> objects = new BeautifulList();
+                objects.addAll(i.getInterested());
+                return new Answer(Answer.NORMAL_STATUS, objects);
+            } catch (RuntimeException e) {
+                return new Answer(NO_IDEA_ID, null);
             }
-            List<Object> objects = new BeautifulList();
-            objects.addAll(i.getInterested());
-            return new Answer(Answer.NORMAL_STATUS, objects);
         }
     }
 

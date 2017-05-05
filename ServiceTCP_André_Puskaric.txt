@@ -36,3 +36,19 @@ Voir les personnes intéréssées pour une idée:
 	- Requête: constructeur Request(Integer id), où id est l'id de l'idée concernée
 	- Answer: les objets contenus sont des String contenant les mails des personnes 
 	intéréssées
+
+
+                                Notes d'implémentation
+
+A la base nous avons voulu faire transiter directement les objets méthodes par la socket
+afin de permettre une réflexion plus propre, toutefois les objets méthodes n'étant pas
+sérialisable car dépendant de la JVM, nous avons choisi de simplement faire passer le nom
+de la méthode. Cela a l'avantage de ne pas forcer un groupe suivant notre protocole à
+utiliser la réflexion java mais de nous permettre de l'utiliser pour éviter des switchs ou autre.
+
+Le fait d'utiliser le client et le serveur sur la même machine entrainait des conflits entre les
+références des objets ce qui nous a contraint de définir des constructeurs par recopie dans Idea
+pour ne pas créer d'inconsistance lors de l'échange de données.
+
+Il aurait été intéréssant d'améliorer la gestion d'erreur de notre protocole mais il est compliqué
+de le changer maintenant alors qu'un autre binôme l'utilise.

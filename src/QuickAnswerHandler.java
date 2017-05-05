@@ -2,7 +2,7 @@ public class QuickAnswerHandler {
 
     void handle (Answer answer) {
         if (!(answer.getStatus().equals(Answer.NORMAL_STATUS))) {
-            System.out.println("Whoops, looks like something went wrong!");
+            System.err.println("\nWhoops, looks like something went wrong: " + answer.getStatus() + '\n');
             return;
         }
         if (answer.getAnswer() == null) {

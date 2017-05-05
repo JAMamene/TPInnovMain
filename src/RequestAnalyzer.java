@@ -17,7 +17,7 @@ public class RequestAnalyzer {
             }
         } catch (InvocationTargetException | IllegalAccessException | ClassNotFoundException | NoSuchMethodException e) {
             e.printStackTrace();
-            return new Answer(Answer.BAD_STATUS, null);
+            return new Answer("Problem when reflecting (Someone must have messed up the protocol (Guillaume))", null);
         }
     }
 }

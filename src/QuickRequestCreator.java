@@ -44,6 +44,7 @@ public class QuickRequestCreator {
                     return null;
             }
         } catch (InputMismatchException m) {
+            System.err.println("Wrong input");
             return null;
         }
         System.out.println("Your request is being sent to the server");
