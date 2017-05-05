@@ -21,7 +21,7 @@ public class Client {
             while (true) {
                 Request request = new QuickRequestCreator().create();
                 if (request == null) {
-                    System.out.println("Goodbye");
+                    System.out.println("Goodbye, closing client");
                     break;
                 }
                 output.writeObject(request);
@@ -35,6 +35,6 @@ public class Client {
     }
 
     public static void main(String[] args) {
-        new Client("localhost",60010).start();
+        new Client("localhost",5555).start();
     }
 }

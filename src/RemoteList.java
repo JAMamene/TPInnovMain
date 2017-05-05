@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -16,18 +17,13 @@ public class RemoteList implements RemoteListInterface {
     public RemoteList() {
         this.ideas = Collections.synchronizedList(new ArrayList<>());
     }
-
-    public List<Idea> getIdeas() {
-        return ideas;
-    }
-
     /**
      * Lists all ideas.
      *
      * @return an answer containing all of the ideas
      */
     public Answer list() {
-        List<Object> objects = new ArrayList<>();
+        List<Object> objects = new BeautifulList();
         synchronized (ideas) {
             for (Idea i : ideas) {
                 objects.add(new Idea(i));
@@ -57,7 +53,9 @@ public class RemoteList implements RemoteListInterface {
      */
     public Answer participate(Participation p) {
         try {
-            ideas.stream().filter(idea -> (idea.getId() == p.getId())).findFirst().orElseThrow(RuntimeException::new).addInterested(p.getEmail());
+            synchronized (ideas) {
+                ideas.stream().filter(idea -> (idea.getId() == p.getId())).findFirst().orElseThrow(RuntimeException::new).addInterested(p.getEmail());
+            }
         } catch (RuntimeException e) {
             return new Answer(Answer.BAD_STATUS, null);
         }
@@ -76,7 +74,7 @@ public class RemoteList implements RemoteListInterface {
             if (i == null) {
                 return new Answer(Answer.BAD_STATUS, null);
             }
-            List<Object> objects = new ArrayList<>();
+            List<Object> objects = new BeautifulList();
             objects.addAll(i.getInterested());
             return new Answer(Answer.NORMAL_STATUS, objects);
         }

@@ -40,6 +40,6 @@ public class Server {
     }
 
     public static void main(String[] args) {
-        new Server(60010).start();
+        new Server(5555).start();
     }
 }
