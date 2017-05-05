@@ -1,0 +1,38 @@
+-----------------------------------------------------------------------------------------	
+André Guillaume															Zaki Berouk
+Puskaric Jean-Adam														Matthieu Maxit
+		
+								Description du protocole
+				
+Nous avons utilisé la sérialisation objet. On dispose donc des objets sérialisables
+suivants: Answer, Idea, Participation, Request.
+
+Chaque requête est contenue dans un objet Request, contenant le nom de la méthode
+à invoquer et les paramètres éventuels nécéssaires. Request dispose de plusieurs
+constructeurs, chacun correspondant à l'une des 4 requêtes.
+
+Le serveur doit posséder un objet distant implémentant RemoteListInterface. Il doit 
+invoquer la méthode contenue dans la requête sur cet objet et renvoyer au client l'objet
+Answer obtenu. Answer contient les éventuels objets de la réponse à recaster par le 
+client selon la requête effectuée et un code de statut correspondant au succès de la 
+requête.
+
+								  Requêtes disponibles
+								
+Lister toutes les idées :
+	- Requête: constructeur Request()
+	- Answer: les objets contenus sont des instances de la clase Idea
+
+Créer une nouvelle idée:
+	- Requête: constructeur Request(Idea idea), où idea est l'idée à ajouter
+	- Answer: aucun objet n'est contenu dans la réponse
+	
+Participer à une idée:
+	- Requête: constructeur Request(Participation participation), la participation
+	contenant le mail de la personne intéréssée et l'id de l'idée concernée
+	- Answer: aucun objet n'est contenu dans la réponse
+	
+Voir les personnes intéréssées pour une idée:
+	- Requête: constructeur Request(Integer id), où id est l'id de l'idée concernée
+	- Answer: les objets contenus sont des String contenant les mails des personnes 
+	intéréssées
