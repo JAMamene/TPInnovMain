@@ -29,7 +29,10 @@ public class Server {
                             ObjectInputStream input = new ObjectInputStream(connectionSocket.getInputStream());
                             while (true) {
                                 Request request = (Request) input.readObject();
-                                output.writeObject(new RequestAnalyzer(request).resolveRequest(remoteList));
+                                System.out.println("request = " + request);
+                                Answer answer = new RequestAnalyzer(request).resolveRequest(remoteList);
+                                output.writeObject(answer);
+                                System.out.println("answer = " + answer);
                                 System.out.println("request from " + connectionSocket.getInetAddress() + " processed");
                             }
                         } catch (SocketException se) {
