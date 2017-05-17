@@ -1,3 +1,5 @@
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -5,7 +7,7 @@ import java.util.List;
 /**
  * A list of ideas stored on the server.
  */
-public class RemoteList implements RemoteListInterface {
+public class RemoteList extends UnicastRemoteObject implements RemoteListInterface {
 
     private static final String NO_IDEA_ID = "There is no idea linked with this identifier";
     private static int currentId = 0;
@@ -14,7 +16,8 @@ public class RemoteList implements RemoteListInterface {
     /**
      * Creates a new remoteList.
      */
-    public RemoteList() {
+    public RemoteList() throws RemoteException {
+        super();
         this.ideas = Collections.synchronizedList(new ArrayList<>());
     }
 

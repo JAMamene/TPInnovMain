@@ -1,7 +1,12 @@
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.Remote;
+import java.util.Arrays;
 
 public class Client {
 
@@ -15,21 +20,13 @@ public class Client {
 
     public void start() {
         try {
-            Socket socket = new Socket(host, port);
-            ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
-            ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
-            while (true) {
-                Request request = new QuickRequestCreator().create();
-                if (request == null) {
-                    System.out.println("Goodbye, closing client");
-                    break;
-                }
-                output.writeObject(request);
-                Answer answer = (Answer) input.readObject();
-                new QuickAnswerHandler().handle(answer);
-            }
-            socket.close();
-        } catch (IOException | ClassNotFoundException e) {
+            String url = "rmi://" + InetAddress.getLocalHost().getHostAddress() + "/TestRMI";
+            Remote r = Naming.lookup(url);
+            System.out.println(r.getClass());
+            RemoteListInterface remote = (RemoteListInterface)  r;
+            remote.add(new Idea("m","a","m","e", Arrays.asList("n","e")));
+            System.out.println(remote.list());
+        } catch (IOException | NotBoundException e) {
             e.printStackTrace();
         }
     }
