@@ -27,7 +27,7 @@ public class RemoteList extends UnicastRemoteObject implements RemoteListInterfa
      * @return an answer containing all of the ideas
      */
     public Answer list() {
-        List<Object> objects = new BeautifulList();
+        List<Object> objects = new ArrayList<>();
         synchronized (ideas) {
             for (Idea i : ideas) {
                 objects.add(new Idea(i));
@@ -76,7 +76,7 @@ public class RemoteList extends UnicastRemoteObject implements RemoteListInterfa
         synchronized (ideas) {
             try {
                 Idea i = ideas.stream().filter(idea -> (idea.getId() == id)).findFirst().orElseThrow(RuntimeException::new);
-                List<Object> objects = new BeautifulList();
+                List<Object> objects = new ArrayList<>();
                 objects.addAll(i.getInterested());
                 return new Answer(Answer.NORMAL_STATUS, objects);
             } catch (RuntimeException e) {

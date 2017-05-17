@@ -6,14 +6,6 @@ import java.rmi.RemoteException;
 
 public class Server {
 
-    private int port;
-    private RemoteList remoteList;
-
-    public Server(int port) throws RemoteException {
-        this.port = port;
-        remoteList = new RemoteList();
-    }
-
     public void start() {
         try {
             System.out.println("Server started");
@@ -28,6 +20,6 @@ public class Server {
 
 
     public static void main(String[] args) throws RemoteException {
-        new Server(5555).start();
+        new Server().start();
     }
 }

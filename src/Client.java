@@ -11,14 +11,20 @@ public class Client {
         try {
             String url = "rmi://" + InetAddress.getLocalHost().getHostAddress() + "/TestRMI";
             Remote r = Naming.lookup(url);
-            System.out.println(r.getClass());
             RemoteListInterface remote = (RemoteListInterface) r;
             RemoteMethodSelector rms = new RemoteMethodSelector();
-            while (rms.select(remote)) {
-                //mamene
+            try {
+                while (rms.select(remote)) {
+                    //mamene
+                }
+            } catch (RuntimeException re) {
+                System.err.println(re.getMessage());
             }
         } catch (IOException | NotBoundException e) {
             e.printStackTrace();
+        }
+        finally {
+            System.out.println("Goodbye");
         }
     }
 
